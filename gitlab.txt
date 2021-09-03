@@ -1,0 +1,93 @@
+sudo docker run --rm -it -v /var/gitlab-runner/config:/etc/gitlab-runner gitlab/gitlab-runner register  -n \
+   // gitlab 地址
+   --url https://gitlab.com/ \
+   // token
+   --registration-token REGISTRATION_TOKEN \
+   // executor 固定是docker
+   --executor docker \
+   // runner的描述
+   --description "auto build image" \
+   // docker in docker模式中使用的docker的镜像，根据本地的docker的版本选择，我本地的docker版本是20.10.5所以docker-image选的是docker:20.10.5-dind
+   --docker-image "docker:20.10.5-dind" \
+   --docker-volumes /var/run/docker.sock:/var/run/docker.sock
+   // .net nuget 包全局缓存
+   --docker-volumes /var/gitlab-runner/.nuget:/root/.nuget
+   // java maven 包全局缓存
+   --docker-volumes /var/gitlab-runner/.m2:/root/.m2
+   // js npm 包全局缓存
+   --docker-volumes /var/gitlab-runner/.npm:/root/.npm
+
+
+
+   https://zhuanlan.zhihu.com/p/80438837
+
+
+gitlab-runner register  --non-interactive  \
+--url "http://git.xxxx.cn"  \
+--registration-token  "xxxxxxxxxxx"  \
+--executor "docker"  \
+--docker-image alpine:latest  \
+--description "base-runner-docker"  \
+--tag-list "base-runner"  \
+--run-untagged="true"   \
+--docker-privileged="true"  \
+--docker-pull-policy "if-not-present" \
+--docker-volumes /etc/docker/daemon.json:/etc/docker/daemon.json \
+--docker-volumes /etc/gitlab-runner/key/docker-config.json:/root/.docker/config.json \
+--docker-volumes /etc/gitlab-runner/find_diff_files:/usr/bin/find_diff_files  \
+--docker-volumes /etc/gitlab-runner/key/id_rsa:/root/.ssh/id_rsa \
+--docker-volumes /etc/gitlab-runner/key/test-kube-config:/root/.kube/config
+
+
+Ubuntu 16.04下载编译Android11源码
+https://blog.csdn.net/tracydragonlxy/article/details/117732693
+
+
+sudo gitlab-runner register  --non-interactive  \
+--url "http://192.168.0.200:8090/"  \
+--registration-token  "xN489Up2yzfe3yEyuoCi"  \
+--executor "docker"  \
+--docker-image aosp:android-11.0.0_r38  \
+--description "android-11.0.0_r38"  \
+--tag-list "AOSP-R"  \
+--run-untagged="true"   \
+--docker-privileged="true"  \
+--docker-pull-policy "if-not-present" \
+--docker-volumes ~/aosp/android-11.0.0_r38:/home/aosp
+
+
+sudo gitlab-runner register  --non-interactive  \
+--url "http://192.168.0.200:8090/"  \
+--registration-token  "xN489Up2yzfe3yEyuoCi"  \
+--executor "docker"  \
+--docker-image aosp:android-11.0.0_r38  \
+--description "android-11.0.0_r38"  \
+--tag-list "AOSP-R"  \
+--run-untagged="true"   \
+--docker-privileged="true"  \
+--docker-pull-policy "if-not-present" \
+--docker-volumes /home/mount_4T/aosp/android-11.0.0_r38:/home/aosp
+
+sudo gitlab-runner register  --non-interactive  \
+--url "http://192.168.0.200:8090/"  \
+--registration-token  "xN489Up2yzfe3yEyuoCi"  \
+--executor "docker"  \
+--docker-image ndk-build:22.1.7171670  \
+--description "Tin-ndk-build-22-225"  \
+--tag-list "ndk"  \
+--run-untagged="true"   \
+--docker-privileged="true"  \
+--docker-pull-policy "if-not-present" 
+
+
+https://docs.gitlab.com/omnibus/docker/
+
+1. sudo docker run --detach --publish 10443:433 --publish 8090:8090 --publish 1022:22 --name gitlab --restart always -v /mnt/gitlab/etc:/etc/gitlab -v /mnt/gitlab/log:/var/log/gitlab -v /mnt/gitlab/data:/var/opt/gitlab gitlab/gitlab-ce:14.0.5-ce.0
+
+2. sudo docker exec -it gitlab /bin/bash
+
+3. sudo docker restart gitlab
+
+
+
+sudo docker run --detach --publish 10443:433 --publish 8090:8090 --publish 1022:22 --name gitlab --restart always -v /home/mount_4T/gitlab/etc:/etc/gitlab -v /home/mount_4T/gitlab/log:/var/log/gitlab -v /home/mount_4T/gitlab/data:/var/opt/gitlab gitlab/gitlab-ce:14.0.5-ce.0
